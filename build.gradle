@@ -32,6 +32,10 @@ dependencies {
   runtimeOnly 'com.h2database:h2'
 }
 
+compileJava {
+  options.compilerArgs << '-Xlint:unchecked'
+}
+
 checkstyle {
   toolVersion = '8.39'
   configFile = project(':').file('config/checkstyle/checkstyle.xml')

@@ -9,6 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class JwtTokenUtils {
+  private JwtTokenUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static final String TOKEN_HEADER = "Authorization";
   public static final String TOKEN_PREFIX = "Bearer ";
 

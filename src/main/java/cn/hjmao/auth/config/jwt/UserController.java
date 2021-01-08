@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
   @Autowired
   private UserRepository userRepository;
-
   @Autowired
   private RoleRepository roleRepository;
-
   @Autowired
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
@@ -42,7 +40,6 @@ public class UserController {
     List<RoleEntity> roles = new ArrayList<>();
     roles.add(role);
     user.setRoles(roles);
-    UserEntity save = userRepository.save(user);
-    return save;
+    return userRepository.save(user);
   }
 }

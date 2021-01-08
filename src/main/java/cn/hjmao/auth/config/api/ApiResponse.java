@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class ApiResponse<T> {
-  private int code;
-  private String msg;
-  private T data;
+  private final int code;
+  private final String message;
+  private final T data;
 
   public ApiResponse(T data) {
     this(ResponseCode.SUCCESS, data);
@@ -14,7 +14,7 @@ public class ApiResponse<T> {
 
   public ApiResponse(ResponseCode resultCode, T data) {
     this.code = resultCode.getCode();
-    this.msg = resultCode.getMsg();
+    this.message = resultCode.getMessage();
     this.data = data;
   }
 
@@ -27,12 +27,12 @@ public class ApiResponse<T> {
     UNAUTHORIZED(1012, "未授权的访问"),
     ERROR(5000, "未知错误");
 
-    private int code;
-    private String msg;
+    private final int code;
+    private final String message;
 
-    ResponseCode(int code, String msg) {
+    ResponseCode(int code, String message) {
       this.code = code;
-      this.msg = msg;
+      this.message = message;
     }
   }
 }

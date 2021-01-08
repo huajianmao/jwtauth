@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionControllerAdvice {
   @ExceptionHandler(ApiException.class)
   public ApiResponse<String> apiExceptionHandler(ApiException e) {
-    return new ApiResponse<>(ApiResponse.ResponseCode.FAILED, e.getMsg());
+    return new ApiResponse<>(ApiResponse.ResponseCode.FAILED, e.getMessage());
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)

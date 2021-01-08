@@ -20,8 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-  private ThreadLocal<Boolean> rememberMe = new ThreadLocal<>();
-  private AuthenticationManager authenticationManager;
+  private final ThreadLocal<Boolean> rememberMe = new ThreadLocal<>();
+  private final AuthenticationManager authenticationManager;
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   @Override
   public Authentication attemptAuthentication(
-      HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+      HttpServletRequest request, HttpServletResponse response) {
     try {
       ObjectMapper mapper = new ObjectMapper();
       Map<String, String> parameters = mapper.readValue(request.getInputStream(), Map.class);
@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   protected void successfulAuthentication(HttpServletRequest request,
                                           HttpServletResponse response,
                                           FilterChain chain,
-                                          Authentication authResult) throws IOException {
+                                          Authentication authResult) {
     UserEntity user = (UserEntity) authResult.getPrincipal();
 
     List<String> roles = new ArrayList<>();
@@ -62,6 +62,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       roles.add(authority.getAuthority());
     }
     String token = JwtTokenUtils.createToken(user.getUsername(), roles, this.rememberMe.get());
+    this.rememberMe.remove();
     response.setHeader("token", JwtTokenUtils.TOKEN_PREFIX + token);
   }
 

@@ -6,11 +6,17 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 public class JwtResponseUtils {
+  private JwtResponseUtils() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static void unauthorized(HttpServletResponse response, String message) throws IOException {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json; charset=utf-8");
     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-    ApiResponse apiResponse = new ApiResponse<>(ApiResponse.ResponseCode.UNAUTHORIZED, message);
+    ApiResponse<String> apiResponse = new ApiResponse<>(
+        ApiResponse.ResponseCode.UNAUTHORIZED, message
+    );
     response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
     response.getWriter().flush();
   }
@@ -20,7 +26,9 @@ public class JwtResponseUtils {
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json; charset=utf-8");
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-    ApiResponse apiResponse = new ApiResponse<>(ApiResponse.ResponseCode.UNAUTHENTICATED, message);
+    ApiResponse<String> apiResponse = new ApiResponse<>(
+        ApiResponse.ResponseCode.UNAUTHENTICATED, message
+    );
     response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
     response.getWriter().flush();
   }

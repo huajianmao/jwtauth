@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,18 +40,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     super.doFilterInternal(request, response, chain);
   }
 
-  private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader)
-      throws Exception {
+  private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader) {
     String token = tokenHeader.replace(JwtTokenUtils.TOKEN_PREFIX, "");
     boolean expiration = JwtTokenUtils.isExpiration(token);
     if (expiration) {
-      throw new Exception("Token expired!");
+      throw new CredentialsExpiredException("Token expired!");
     } else {
       String username = JwtTokenUtils.getUsername(token);
       List<String> roles = JwtTokenUtils.getUserRoles(token);
       if (username != null) {
         return new UsernamePasswordAuthenticationToken(username, null,
-            roles.stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toSet())
+            roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet())
         );
       }
     }
