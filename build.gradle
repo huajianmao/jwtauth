@@ -3,6 +3,8 @@ plugins {
   id 'io.spring.dependency-management' version '1.0.10.RELEASE'
   id 'java'
   id 'checkstyle'
+  id 'jacoco'
+  id 'org.sonarqube' version '3.0'
 }
 
 group = 'cn.hjmao.auth'
@@ -44,4 +46,26 @@ checkstyle {
 
 test {
   useJUnitPlatform()
+  finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+  dependsOn test
+  reports {
+    xml.enabled = true
+  }
+  afterEvaluate {
+    classDirectories.from = files(classDirectories.files.collect {
+      fileTree(dir: it, excludes: [])
+    })
+  }
+}
+
+sonarqube {
+  dependsOn jacocoTestReport
+  properties {
+    property 'sonar.host.url', 'https://sonarcloud.io'
+    property "sonar.organization", "huajianmao-github"
+    property "sonar.projectKey", "huajianmao_springboot-with-jwt-starter"
+  }
 }
