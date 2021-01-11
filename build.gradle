@@ -61,11 +61,13 @@ jacocoTestReport {
   }
 }
 
-sonarqube {
-  dependsOn jacocoTestReport
-  properties {
-    property 'sonar.host.url', 'https://sonarcloud.io'
-    property "sonar.organization", "huajianmao-github"
-    property "sonar.projectKey", "huajianmao_springboot-with-jwt-starter"
-  }
-}
+//sonarqube {
+//  dependsOn jacocoTestReport
+//  properties {
+//    property 'sonar.host.url', 'https://sonarcloud.io'
+//    property "sonar.organization", "huajianmao-github"
+//    property "sonar.projectKey", "huajianmao_springboot-with-jwt-starter"
+//    property "sonar.sourceEncoding", "UTF-8"
+//    property 'sonar.jacoco.reportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+//  }
+//}
