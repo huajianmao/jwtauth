@@ -4,6 +4,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
@@ -17,7 +18,17 @@ public class ExceptionControllerAdvice {
       MethodArgumentNotValidException e) {
     ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
     return new ApiResponse<>(
-        ApiResponse.ResponseCode.VALIDATE_FAILED, objectError.getDefaultMessage()
+      ApiResponse.ResponseCode.VALIDATE_FAILED, objectError.getDefaultMessage()
     );
+  }
+
+  @ExceptionHandler(NoHandlerFoundException.class)
+  public ApiResponse<String> noHandlerFoundException(NoHandlerFoundException e) {
+    return new ApiResponse<>(ApiResponse.ResponseCode.NOT_FOUND, e.getMessage());
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ApiResponse<String> handleException(Exception e) {
+    return new ApiResponse<>(ApiResponse.ResponseCode.ERROR, e.getMessage());
   }
 }

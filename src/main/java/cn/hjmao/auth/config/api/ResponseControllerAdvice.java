@@ -23,7 +23,7 @@ public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
   public Object beforeBodyWrite(
       Object data, MethodParameter returnType, MediaType mediaType,
       Class<? extends HttpMessageConverter<?>> clazz,
-      ServerHttpRequest request, ServerHttpResponse response) {
+      ServerHttpRequest request, final ServerHttpResponse response) {
     if (returnType.getGenericParameterType().equals(String.class)) {
       ObjectMapper objectMapper = new ObjectMapper();
       try {

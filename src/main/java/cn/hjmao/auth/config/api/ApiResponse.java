@@ -23,6 +23,7 @@ public class ApiResponse<T> {
     SUCCESS(1000, "操作成功"),
     FAILED(1001, "响应失败"),
     VALIDATE_FAILED(1002, "参数校验失败"),
+    NOT_FOUND(1003, "访问路径错误"),
     UNAUTHENTICATED(1011, "身份验证失败"),
     UNAUTHORIZED(1012, "未授权的访问"),
     ERROR(5000, "未知错误");
