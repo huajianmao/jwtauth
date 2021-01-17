@@ -23,9 +23,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
-  @Autowired
-  @Qualifier("userService")
-  private UserDetailsService userDetailsService;
+  private final UserService userService;
+
+  public JwtSecurityConfig(UserService userService) {
+    this.userService = userService;
+  }
 
   @Bean
   public BCryptPasswordEncoder bcryptPasswordEncoder() {
@@ -34,7 +36,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(bcryptPasswordEncoder());
+    auth.userDetailsService(userService).passwordEncoder(bcryptPasswordEncoder());
   }
 
   @Override
