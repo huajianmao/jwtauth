@@ -2,7 +2,7 @@ package cn.hjmao.auth.config.api;
 
 import cn.hjmao.auth.config.api.annotation.ExceptionCode;
 import java.lang.reflect.Field;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,15 +21,15 @@ public class ExceptionControllerAdvice {
     String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 
     Class<?> parameterType = e.getParameter().getParameterType();
-    String fieldName = e.getBindingResult().getFieldError().getField();
-    Field field = parameterType.getDeclaredField(fieldName);
-
-    ExceptionCode annotation = field.getAnnotation(ExceptionCode.class);
-    if (annotation != null) {
-      return new ApiResponse<>(annotation, message);
-    } else {
-      return new ApiResponse<>(ApiResponse.ResponseCode.VALIDATE_FAILED, message);
+    FieldError error = e.getBindingResult().getFieldError();
+    if (error != null) {
+      Field field = parameterType.getDeclaredField(error.getField());
+      ExceptionCode annotation = field.getAnnotation(ExceptionCode.class);
+      if (annotation != null) {
+        return new ApiResponse<>(annotation, message);
+      }
     }
+    return new ApiResponse<>(ApiResponse.ResponseCode.VALIDATE_FAILED, message);
   }
 
   @ExceptionHandler(NoHandlerFoundException.class)
