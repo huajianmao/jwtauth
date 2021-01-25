@@ -1,5 +1,6 @@
 package cn.hjmao.auth.config.api;
 
+import cn.hjmao.auth.config.api.annotation.NotResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.MethodParameter;
@@ -16,7 +17,8 @@ public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
   @Override
   public boolean supports(
       MethodParameter returnType, Class<? extends HttpMessageConverter<?>> clazz) {
-    return !returnType.getParameterType().equals(ApiResponse.class);
+    return !returnType.getParameterType().equals(ApiResponse.class)
+        && !returnType.hasMethodAnnotation(NotResponseBody.class);
   }
 
   @Override

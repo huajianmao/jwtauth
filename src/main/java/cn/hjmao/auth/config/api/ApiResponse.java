@@ -1,5 +1,6 @@
 package cn.hjmao.auth.config.api;
 
+import cn.hjmao.auth.config.api.annotation.ExceptionCode;
 import lombok.Getter;
 
 @Getter
@@ -15,6 +16,18 @@ public class ApiResponse<T> {
   public ApiResponse(ResponseCode resultCode, T data) {
     this.code = resultCode.getCode();
     this.message = resultCode.getMessage();
+    this.data = data;
+  }
+
+  public ApiResponse(ExceptionCode annotation, T data) {
+    this.code = annotation.value();
+    this.message = annotation.message();
+    this.data = data;
+  }
+
+  public ApiResponse(int code, String message, T data) {
+    this.code = code;
+    this.message = message;
     this.data = data;
   }
 
