@@ -1,15 +1,18 @@
 plugins {
-  id 'org.springframework.boot' version '2.4.1'
+  id 'org.springframework.boot' version '2.5.6'
   id 'io.spring.dependency-management' version '1.0.10.RELEASE'
   id 'java'
+  id 'application'
   id 'checkstyle'
   id 'jacoco'
   id 'org.sonarqube' version '3.0'
+  id 'maven-publish'
 }
 
-group = 'cn.hjmao.auth'
+group = 'cn.hjmao'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = 11
+targetCompatibility = 11
 
 configurations {
   compileOnly {
@@ -29,7 +32,6 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'io.jsonwebtoken:jjwt:0.9.1'
   compileOnly 'org.projectlombok:lombok'
-  // implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
   annotationProcessor 'org.projectlombok:lombok'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.security:spring-security-test'
@@ -54,6 +56,7 @@ test {
 }
 
 jacocoTestReport {
+  dependsOn test
   reports {
     xml.enabled = true
   }
@@ -73,5 +76,39 @@ sonarqube {
     property 'sonar.jacoco.reportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
   }
 }
-tasks['jacocoTestReport'].dependsOn test
+
 tasks['sonarqube'].dependsOn jacocoTestReport
+
+application {
+  mainClassName = 'cn.hjmao.auth.JwtApplication'
+}
+
+jar {
+  enabled = true
+}
+
+def newArtifactId = rootProject.name.replace('.', '-')
+
+publishing {
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = "https://maven.pkg.github.com/huajianmao/jwtauth"
+      credentials {
+        username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+        password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+      }
+    }
+  }
+
+  publications {
+    bootJava(MavenPublication) {
+      artifact bootJar
+      artifactId "${newArtifactId}"
+    }
+    gpr(MavenPublication) {
+      from(components.java)
+      artifactId "${newArtifactId}"
+    }
+  }
+}
