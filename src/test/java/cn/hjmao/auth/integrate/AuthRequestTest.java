@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -23,6 +24,9 @@ import org.springframework.http.ResponseEntity;
 class AuthRequestTest {
   @LocalServerPort
   private int port;
+
+  @Value("${api.prefix}")
+  private String apiPrefix;
 
   @Autowired
   private TestRestTemplate restTemplate;
@@ -118,6 +122,6 @@ class AuthRequestTest {
   }
 
   private String createServiceUrlWithPort(String entryPoint) {
-    return "http://localhost:" + port + "/api/v1" + entryPoint;
+    return "http://localhost:" + port + apiPrefix + entryPoint;
   }
 }

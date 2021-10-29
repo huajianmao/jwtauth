@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.ResultActions;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(AccountController.class)
 @Import(JwtSecurityConfig.class)
-
 class AccountControllerTest {
   @Autowired
   private MockMvc mvc;
