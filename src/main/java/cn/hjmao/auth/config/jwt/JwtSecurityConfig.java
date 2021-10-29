@@ -5,6 +5,7 @@ import cn.hjmao.auth.config.jwt.helper.JwtAccessDeniedHandler;
 import cn.hjmao.auth.config.jwt.helper.JwtAuthenticationEntryPoint;
 import cn.hjmao.auth.config.jwt.helper.JwtAuthenticationFilter;
 import cn.hjmao.auth.config.jwt.helper.JwtAuthorizationFilter;
+import cn.hjmao.auth.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

@@ -1,4 +1,4 @@
-package cn.hjmao.auth.config.jwt;
+package cn.hjmao.auth.entity;
 
 import cn.hjmao.auth.config.JwtSettings;
 import javax.persistence.Entity;

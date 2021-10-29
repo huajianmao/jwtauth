@@ -1,4 +1,4 @@
-package cn.hjmao.auth.config.jwt;
+package cn.hjmao.auth.entity;
 
 import cn.hjmao.auth.config.JwtSettings;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @Entity
 @Table(name = JwtSettings.TABLE_NAME_USER)
-public class UserEntity implements UserDetails {
+public class AccountEntity implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

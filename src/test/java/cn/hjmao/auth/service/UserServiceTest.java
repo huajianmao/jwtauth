@@ -1,7 +1,10 @@
-package cn.hjmao.auth.config.jwt;
+package cn.hjmao.auth.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import cn.hjmao.auth.entity.AccountEntity;
+import cn.hjmao.auth.repository.AccountRepository;
+import cn.hjmao.auth.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -26,13 +29,13 @@ class UserServiceTest {
   private UserService userService;
 
   @MockBean
-  private UserRepository userRepository;
+  private AccountRepository accountRepository;
 
   @Test
   void loadUserByUsername() {
-    UserEntity user = new UserEntity();
+    AccountEntity user = new AccountEntity();
     user.setUsername("hjmao");
-    Mockito.when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+    Mockito.when(accountRepository.findByUsername(user.getUsername())).thenReturn(user);
 
     UserDetails found = userService.loadUserByUsername("hjmao");
     assertThat(found).isNotNull();

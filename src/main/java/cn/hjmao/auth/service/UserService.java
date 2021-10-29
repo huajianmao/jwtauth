@@ -1,5 +1,7 @@
-package cn.hjmao.auth.config.jwt;
+package cn.hjmao.auth.service;
 
+import cn.hjmao.auth.entity.AccountEntity;
+import cn.hjmao.auth.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,11 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
   @Autowired
-  UserRepository userRepository;
+  AccountRepository accountRepository;
 
   @Override
   public UserDetails loadUserByUsername(String username) {
-    UserEntity user = userRepository.findByUsername(username);
+    AccountEntity user = accountRepository.findByUsername(username);
     if (user == null) {
       throw new UsernameNotFoundException("User not found!");
     }

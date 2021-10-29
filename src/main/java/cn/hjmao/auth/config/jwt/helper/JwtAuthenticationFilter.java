@@ -1,7 +1,7 @@
 package cn.hjmao.auth.config.jwt.helper;
 
 import cn.hjmao.auth.config.JwtSettings;
-import cn.hjmao.auth.config.jwt.UserEntity;
+import cn.hjmao.auth.entity.AccountEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                           HttpServletResponse response,
                                           FilterChain chain,
                                           Authentication authResult) {
-    UserEntity user = (UserEntity) authResult.getPrincipal();
+    AccountEntity user = (AccountEntity) authResult.getPrincipal();
 
     List<String> roles = new ArrayList<>();
     Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

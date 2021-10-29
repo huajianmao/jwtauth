@@ -1,6 +1,10 @@
-package cn.hjmao.auth.config.jwt;
+package cn.hjmao.auth.controller;
 
 import cn.hjmao.auth.config.JwtSettings;
+import cn.hjmao.auth.entity.AccountEntity;
+import cn.hjmao.auth.entity.RoleEntity;
+import cn.hjmao.auth.repository.AccountRepository;
+import cn.hjmao.auth.repository.RoleRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class AccountController {
   @Autowired
-  private UserRepository userRepository;
+  private AccountRepository accountRepository;
   @Autowired
   private RoleRepository roleRepository;
   @Autowired
   private BCryptPasswordEncoder bcryptPasswordEncoder;
 
   @PostMapping(JwtSettings.SIGNUP_ROUTE_PATH)
-  public UserEntity registerUser(@RequestBody Map<String, String> registerUser) {
-    UserEntity user = new UserEntity();
+  public AccountEntity registerUser(@RequestBody Map<String, String> registerUser) {
+    AccountEntity user = new AccountEntity();
     user.setUsername(registerUser.get(JwtSettings.FORM_USERNAME));
     user.setPassword(bcryptPasswordEncoder.encode(registerUser.get(JwtSettings.FORM_PASSWORD)));
     user.setAccountNonExpired(true);
@@ -40,6 +44,6 @@ public class UserController {
     List<RoleEntity> roles = new ArrayList<>();
     roles.add(role);
     user.setRoles(roles);
-    return userRepository.save(user);
+    return accountRepository.save(user);
   }
 }

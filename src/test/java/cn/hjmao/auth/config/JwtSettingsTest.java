@@ -2,7 +2,6 @@ package cn.hjmao.auth.config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
