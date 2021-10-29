@@ -5,7 +5,7 @@ import cn.hjmao.auth.config.jwt.helper.JwtAccessDeniedHandler;
 import cn.hjmao.auth.config.jwt.helper.JwtAuthenticationEntryPoint;
 import cn.hjmao.auth.config.jwt.helper.JwtAuthenticationFilter;
 import cn.hjmao.auth.config.jwt.helper.JwtAuthorizationFilter;
-import cn.hjmao.auth.service.UserService;
+import cn.hjmao.auth.service.AccountService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,10 +24,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
-  private final UserService userService;
+  private final AccountService accountService;
 
-  public JwtSecurityConfig(UserService userService) {
-    this.userService = userService;
+  public JwtSecurityConfig(AccountService accountService) {
+    this.accountService = accountService;
   }
 
   @Bean
@@ -37,7 +37,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userService).passwordEncoder(bcryptPasswordEncoder());
+    auth.userDetailsService(accountService).passwordEncoder(bcryptPasswordEncoder());
   }
 
   @Override

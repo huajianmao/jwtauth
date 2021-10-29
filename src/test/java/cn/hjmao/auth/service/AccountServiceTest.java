@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import cn.hjmao.auth.entity.AccountEntity;
 import cn.hjmao.auth.repository.AccountRepository;
-import cn.hjmao.auth.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -16,17 +15,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-class UserServiceTest {
+class AccountServiceTest {
   @TestConfiguration
   static class UserServiceImpl {
     @Bean
-    public UserService userService() {
-      return new UserService();
+    public AccountService userService() {
+      return new AccountService();
     }
   }
 
   @Autowired
-  private UserService userService;
+  private AccountService accountService;
 
   @MockBean
   private AccountRepository accountRepository;
@@ -37,7 +36,7 @@ class UserServiceTest {
     user.setUsername("hjmao");
     Mockito.when(accountRepository.findByUsername(user.getUsername())).thenReturn(user);
 
-    UserDetails found = userService.loadUserByUsername("hjmao");
+    UserDetails found = accountService.loadUserByUsername("hjmao");
     assertThat(found).isNotNull();
     assertThat(found.getUsername()).isEqualTo("hjmao");
   }

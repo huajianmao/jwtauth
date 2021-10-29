@@ -6,10 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cn.hjmao.auth.config.JwtSettings;
 import cn.hjmao.auth.config.jwt.JwtSecurityConfig;
-import cn.hjmao.auth.controller.AccountController;
 import cn.hjmao.auth.repository.AccountRepository;
 import cn.hjmao.auth.repository.RoleRepository;
-import cn.hjmao.auth.service.UserService;
+import cn.hjmao.auth.service.AccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ class AccountControllerTest {
   private ObjectMapper objectMapper;
 
   @MockBean
-  private UserService userService;
+  private AccountService accountService;
   @MockBean
   private AccountRepository accountRepository;
   @MockBean
